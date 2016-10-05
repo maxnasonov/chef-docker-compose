@@ -8,6 +8,7 @@ attribute :project,      :kind_of => String, :default => 'default'
 attribute :recreate,     :kind_of => [TrueClass, FalseClass], :default => false
 attribute :variables,    :kind_of => Hash,   :default => {}
 attribute :service,      :kind_of => [Array, String]
+attribute :source_type,  :kind_of => String, :default => 'template'
 
 def source(*args)
   if not args.empty?

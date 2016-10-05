@@ -135,14 +135,18 @@ end
 
 # Write docker-compose project environment file into compose.d config directory.
 def update_environment_file(path, opts={})
+  source_type = new_resource.source
   source = new_resource.source.dup
   src_cookbook = new_resource.cookbook || new_resource.cookbook_name.to_s
   variables    = new_resource.variables
 
   inline_eval do
-    if source.size == 1
+    if source_type == 'template'
       source = source.pop
-      crmeth = source.end_with?('.erb') ? :template : :cookbook_file
+      crmeth = :template
+    elsif source_type == 'cookbook_file'  
+      source = source.pop
+      crmeth = :cookbook_file
     else
       crmeth = :remote_file
     end
